@@ -26,11 +26,12 @@ export const verifyJWT = async (req, _, next) => {
       }
 }
 
-export const verifySeller = async (req, _, next) => {
+export const verifySeller = async (req, res, next) => {
       try {
-            if (!req.user.isSeller) throw new APIError(403, "Unauthorized request")
-            next()
+            console.log(req.user); // Printing the user object which has 'isSeller' property
+            if (req.user?.isSeller == false) throw new APIError(403, "Unauthorized request");
+            next();
       } catch (error) {
-            throw new APIError(403, "Couldn't validate seller status")
+            next(new APIError(403, "Couldn't validate seller status"));
       }
 }
