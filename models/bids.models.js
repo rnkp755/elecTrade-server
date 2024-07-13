@@ -19,4 +19,4 @@ const bidSchema = new Schema({
 });
 
 bidSchema.plugin(mongooseAggregatePaginate);
-const Bid = mongoose.model("Bid", bidSchema);
+export const Bid = mongoose.model("Bid", bidSchema);
