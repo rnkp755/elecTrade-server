@@ -6,6 +6,7 @@ const tradeSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: "User",
             required: true,
+            index: true,
       },
       title: {
             type: String,
@@ -26,6 +27,7 @@ const tradeSchema = new Schema({
       bidding_deadline: {
             type: Date,
             required: true,
+            index: true,
       },
 }, { timestamps: true });
 

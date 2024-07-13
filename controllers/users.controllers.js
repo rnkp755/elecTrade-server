@@ -118,7 +118,6 @@ const loginUser = asyncHandler(async (req, res) => {
 
 const logoutUser = asyncHandler(async (req, res) => {
       console.log("Logout ", req.user._id);
-      // Output : Logout  undefined
       const user = await User.findByIdAndUpdate(
             req.user._id,
             {

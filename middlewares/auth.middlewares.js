@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken"
 
 export const verifyJWT = async (req, _, next) => {
       try {
-            const accessToken = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "")
+            let accessToken = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "")
 
             if (accessToken === undefined || accessToken.trim() === "") throw new APIError(401, "Couldn't find Accesstoken")
 
@@ -22,14 +22,16 @@ export const verifyJWT = async (req, _, next) => {
             next()
 
       } catch (error) {
-            throw new APIError(401, "Couldn't Validate AccessToken")
+            next(new APIError(401, error.message || "Couldn't validate Access Token"));
       }
 }
 
 export const verifySeller = async (req, res, next) => {
       try {
             console.log(req.user); // Printing the user object which has 'isSeller' property
-            if (req.user?.isSeller == false) throw new APIError(403, "Unauthorized request");
+            if (!req.user || req.user.isSeller !== true) {
+                  throw new APIError(403, "Unauthorized request: User is not a seller");
+            }
             next();
       } catch (error) {
             next(new APIError(403, "Couldn't validate seller status"));
