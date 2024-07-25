@@ -26,7 +26,7 @@ const tradeSchema = new Schema({
       },
       bidding_deadline: {
             type: Date,
-            required: true,
+            // required: true,
             index: true,
       },
 }, { timestamps: true });

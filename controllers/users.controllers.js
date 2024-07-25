@@ -88,7 +88,6 @@ const loginUser = asyncHandler(async (req, res) => {
       user.refreshToken = refreshToken
 
       const loggedInUser = user.toObject()
-      delete loggedInUser['_id']
       delete loggedInUser['password']
       delete loggedInUser['createdAt']
       delete loggedInUser['updatedAt']
@@ -97,8 +96,7 @@ const loginUser = asyncHandler(async (req, res) => {
       console.log(loggedInUser);
 
       const options = {
-            httpOnly: true,
-            secure: true
+            httpOnly: true
       }
 
       return res
@@ -109,7 +107,7 @@ const loginUser = asyncHandler(async (req, res) => {
                   new APIResponse(
                         200,
                         {
-                              user
+                              loggedInUser
                         },
                         "User logged in successfully"
                   )

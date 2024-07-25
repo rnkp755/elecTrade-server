@@ -5,16 +5,16 @@ import { User } from '../models/users.models.js'
 import { Trade } from '../models/trades.models.js'
 
 const postTrade = asyncHandler(async (req, res, next) => {
-      const userId = await req.user?._id
-      const { title, image, description, price, bidding_deadline } = req.body
+      // const userId = await req.user?._id
+      const { userId, title, image, description, price, bidding_deadline } = req.body
 
       if (!userId) throw new APIError(401, 'Unauthorized request')
 
-      if (!title.trim() || !image.trim() || !description.trim() || price <= 0 || !bidding_deadline) throw new APIError(400, 'Please provide all required fields')
+      // if (!title.trim() || !image.trim() || !description.trim() || price <= 0 || !bidding_deadline) throw new APIError(400, 'Please provide all required fields')
 
       const user = await User.findById(userId)
       if (!user) throw new APIError(401, 'Unauthorized request')
-
+      if (!user.isSeller) throw new APIError(403, 'You are not authorized to create a trade')
       const trade = new Trade({
             createdBy: userId,
             title,
